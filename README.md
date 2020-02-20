@@ -1,17 +1,17 @@
 # Data Pipelines with Apache Airflow
 
-Automated data pipeline workflows using [Apache Airflow](https://airflow.apache.org/) that loads and processes data from Amazon S3 into Redshift
+Automated data pipeline workflows using [Apache Airflow](https://airflow.apache.org/) that loads and processes data from Amazon S3 into an [Amazon Redshift](https://aws.amazon.com/redshift/) cloud data warehouse for analytics processing.
 
 ## Background
 
-The analytics team for music streaming startup Spakify wants to automate and better monitor their data warehouse ETL pipelines using the Apache Airflow open-source workflow management platform.
+The analytics team for music streaming startup Sparkify wants to automate and better monitor their data warehouse ETL pipelines using the Apache Airflow open-source workflow management platform.
 
 ## Objective
 The goal of this project is to author a data pipeline workflow created with custom operators within the Airflow platform that perform tasks such as staging data, populating the data warehouse, and running quality checks.  The end result will be a pipeline defintion as illustrated below.
 
 <img src="content/dag.png" width="85%" height="85%" />
 
-The pipeline will transforms the data into a set of fact and dimension tables.
+The pipeline transforms the data into a set of fact and dimension tables in Redshift.
 
 <img src="content/songplays.png" width="75%" height="75%" />
 
