@@ -5,7 +5,7 @@ from airflow.utils.decorators import apply_defaults
 
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
-    # template_fields = ("s3_key",)
+
     copy_sql = """
         COPY {}
         FROM '{}'
@@ -22,7 +22,8 @@ class StageToRedshiftOperator(BaseOperator):
                  redshift_conn_id="",
                  aws_credentials_id="",
                  table="",
-                 s3_path="",
+                 s3_bucket="",
+                 s3_key="",
                  region="",
                  json_path="",
                  *args, **kwargs):
@@ -31,7 +32,8 @@ class StageToRedshiftOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
         self.aws_credentials_id = aws_credentials_id
         self.table = table
-        self.s3_path = s3_path
+        self.s3_bucket = s3_bucket
+        self.s3_key = s3_key
         self.region = region
         self.json_path = json_path
 
@@ -45,9 +47,10 @@ class StageToRedshiftOperator(BaseOperator):
         redshift.run("DELETE FROM {}".format(self.table))        
 
         self.log.info(f"Copying data from S3 to {self.table} Redshift table")
+        s3_path = f"s3://{self.s3_bucket}/{self.s3_key}"
         formatted_sql = StageToRedshiftOperator.copy_sql.format(
             self.table,
-            self.s3_path,
+            s3_path,
             credentials.access_key,
             credentials.secret_key,
             self.region,
